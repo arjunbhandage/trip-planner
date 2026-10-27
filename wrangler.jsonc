@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "trip-planner",
+	"main": "src/server.ts",
+	"compatibility_date": "2026-10-19",
+	"compatibility_flags": ["nodejs_compat"],
+	"upload_source_maps": true,
+	"observability": { "enabled": true },
+	"assets": { "not_found_handling": "single-page-application" },
+	"ai": { "binding": "AI" },
+	"durable_objects": {
+		"bindings": [{ "name": "TripPlannerAgent", "class_name": "TripPlannerAgent" }]
+	},
+	"workflows": [
+		{ "name": "itinerary-workflow", "binding": "ITINERARY_WORKFLOW", "class_name": "ItineraryWorkflow" }
+	],
+	"migrations": [{ "tag": "v1", "new_sqlite_classes": ["TripPlannerAgent"] }]
+}

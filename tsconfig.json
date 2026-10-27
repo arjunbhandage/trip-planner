@@ -1,0 +1,5 @@
+{
+	"extends": "agents/tsconfig",
+	"compilerOptions": { "target": "ES2021", "jsx": "react-jsx", "types": ["vite/client", "./worker-configuration.d.ts"] },
+	"include": ["src", "worker-configuration.d.ts"]
+}

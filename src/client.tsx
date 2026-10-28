@@ -14,7 +14,7 @@ function App() {
 		agent: "TripPlannerAgent",
 		onStateUpdate: setState
 	});
-	const { messages, sendMessage, clearHistory, status } = useAgentChat({ agent });
+	const { messages, sendMessage, clearHistory, status, error } = useAgentChat({ agent });
 
 	const prefs = state?.preferences;
 	const itinerary = state?.itinerary;
@@ -24,7 +24,14 @@ function App() {
 			<main className="chat">
 				<header>
 					<h1>Trip Planner</h1>
-					<button onClick={clearHistory}>Clear chat</button>
+					<button
+						onClick={() => {
+							clearHistory();
+							agent.stub.resetTrip();
+						}}
+					>
+						Clear chat
+					</button>
 				</header>
 				<div className="messages">
 					{messages.map((m) => (
@@ -32,6 +39,7 @@ function App() {
 							{m.parts.map((p, i) => (p.type === "text" ? <p key={i}>{p.text}</p> : null))}
 						</div>
 					))}
+					{error && <p className="error">{error.message}</p>}
 				</div>
 				<form
 					onSubmit={(e) => {

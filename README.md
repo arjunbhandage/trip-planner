@@ -83,5 +83,6 @@ Notes:
 
 ## Known issues
 
-- `@cf/meta/llama-3.3-70b-instruct-fp8-fast` returned HTTP 500 from Workers AI when combined with streaming and tools, so `MODEL` is set to `@cf/meta/llama-4-scout-17b-16e-instruct`. Change `MODEL` in `src/workflow.ts` to try another model.
+- `MODEL` is `@cf/meta/llama-3.3-70b-instruct-fp8-fast`. It once returned HTTP 500 from Workers AI when combined with streaming and tools, and chat turns have stalled silently on the deployed app. Chat model calls now time out after 45 seconds and show the error in the UI. If this keeps happening, check your Workers AI usage against the free daily allowance, or switch `MODEL` in `src/workflow.ts` to `@cf/meta/llama-4-scout-17b-16e-instruct`, which is cheaper.
+- Switching trips without clicking **Clear chat** carries old interests over to the new trip.
 - Voice input is not implemented.

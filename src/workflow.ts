@@ -4,7 +4,7 @@ import type { TripPlannerAgent } from "./server";
 import type { ItineraryParams } from "./shared";
 import { fetchForecast } from "./weather";
 
-export const MODEL = "@cf/meta/llama-4-scout-17b-16e-instruct";
+export const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 export class ItineraryWorkflow extends AgentWorkflow<TripPlannerAgent, ItineraryParams> {
 	async run(event: AgentWorkflowEvent<ItineraryParams>, step: AgentWorkflowStep) {

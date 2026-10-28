@@ -1,5 +1,5 @@
 import { AIChatAgent } from "@cloudflare/ai-chat";
-import { routeAgentRequest } from "agents";
+import { callable, routeAgentRequest } from "agents";
 import { createAI } from "agents/models/ai-sdk";
 import { convertToModelMessages, pruneMessages, stepCountIs, streamText, tool } from "ai";
 import { z } from "zod";
@@ -80,9 +80,18 @@ export class TripPlannerAgent extends AIChatAgent<Env, TripState> {
 					}
 				})
 			},
-			stopWhen: stepCountIs(5)
+			stopWhen: stepCountIs(5),
+			abortSignal: AbortSignal.timeout(45_000),
+			onError: ({ error }) => console.error("chat model error", error)
 		});
-		return result.toUIMessageStreamResponse();
+		return result.toUIMessageStreamResponse({
+			onError: (error) => (error instanceof Error ? error.message : String(error))
+		});
+	}
+
+	@callable()
+	resetTrip() {
+		this.setState(this.initialState);
 	}
 
 	async saveItinerary(body: string) {
